@@ -16,17 +16,29 @@ public class Order implements Parcelable{
     private int PERSONS_NUM = 0;
     private int TABLE_NUM = 0;
     private int PERSONS_ORDERED = 0;
-    private String[] food;
 
     private String[][] orders;
+    /* private String[][] orders =
+                               [Starter] [Starter]
+                               [Starter notes] [Starter notes]
+                               [main] [main]
+                               [main notes] [main notes]
+                               [dessert] [dessert]
+                               [dessert notes] [dessert notes]
+                               [drinks] [drinks]
+                               [drinks notes] [drinks notes]
+       Column = seat num (e.g order[0][1] = seat number 1, stater)
+                               */
 
     //Constructor for creation of first parcel
     public Order (int pNum, int tNum) {
         PERSONS_NUM = pNum;
         TABLE_NUM = tNum;
-        food = new String[pNum];
-        for (int i = 0; i<food.length; i++) {
-            food[i] = "";
+        orders = new String[pNum][8];
+        for (int i = 0; i<pNum; i++) {
+            for (int j = 0; j<8; j++) {
+                orders[i][j] = "";
+            }
         }
     }
 
@@ -35,13 +47,13 @@ public class Order implements Parcelable{
         PERSONS_NUM = in.readInt();
         TABLE_NUM = in.readInt();
         PERSONS_ORDERED = in.readInt();
-        food = in.createStringArray();
+        String[]compressedOrders = in.createStringArray();
+        orders = toTwoDimensions(8, compressedOrders);
     }
 
     //Adds the food the person chose to the order
-    public void AddFood(String foodOrder, int person) {
-        food[person] = foodOrder;
-        PERSONS_ORDERED++;
+    public void AddFood(String foodOrder, int courseNum, int seatNum) {
+        orders[seatNum-1][courseNum] = foodOrder;
     }
 
     //Returns true if every person has ordered
@@ -50,6 +62,26 @@ public class Order implements Parcelable{
             return true;
         }
         else return false;
+    }
+
+    public String[] toOneDimension(String[][] input){
+        String[] output = new String[input.length * input[0].length];
+
+        for(int i = 0; i < input.length; i++){
+            for(int j = 0; j < input[i].length; j++){
+                output[i*j] = input[i][j];
+            }
+        }
+        return output;
+    }
+
+    public String[][] toTwoDimensions(int dimensions, String[] input){
+        String[][] output = new String[input.length / dimensions][dimensions];
+
+        for(int i = 0; i < input.length; i++){
+            output[i/dimensions][i % dimensions] = input[i];
+        }
+        return output;
     }
 
     //Returns the total number of people at table
@@ -61,8 +93,8 @@ public class Order implements Parcelable{
         return TABLE_NUM;
     }
     //Get the contents of the order (person and food ordered)
-    public String getFood (int person) {
-        return food[person];
+    public String getFood (int person, int courseNum) {
+        return orders[person][courseNum];
     }
 
     //returns the number of the person who is currently ordering
@@ -82,7 +114,8 @@ public class Order implements Parcelable{
         parcel.writeInt(PERSONS_NUM);
         parcel.writeInt(TABLE_NUM);
         parcel.writeInt(PERSONS_ORDERED);
-        parcel.writeStringArray(food);
+        String[] compressedOrder = toOneDimension(orders);
+        parcel.writeStringArray(compressedOrder);
     }
 
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {

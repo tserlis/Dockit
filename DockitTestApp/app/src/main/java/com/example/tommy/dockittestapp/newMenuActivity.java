@@ -1,5 +1,6 @@
 package com.example.tommy.dockittestapp;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,10 +20,14 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class newMenuActivity extends AppCompatActivity {
+public class newMenuActivity extends AppCompatActivity implements SeatNumDialog.SeatNumDialogListener {
 
-    Button btnAddT;
+    //Initialising Menu buttons (s = starters, m = mains, d = desserts, o = orders)
+
+    int seatNumber;
+    TextView txtOrderConfirm;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -59,17 +64,31 @@ public class newMenuActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-       // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-           // public void onClick(View view) {
-             //   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-              //          .setAction("Action", null).show();
-            //}
-        //});
+        //getting Order data
+        final Order order = (Order) getIntent().getParcelableExtra("order");
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("order", order);
+       // MenuTab1Starters.setArguments(bundle);
+
+        //Linking onscreen elements to variables
+
+        txtOrderConfirm = findViewById(R.id.txtConfirmation);
 
 
+        //Order confirmation text
+        int numOfPeople = order.currentPerson();
+
+        String orderConfirm ="";
+        //Filling out order confirmation text fields
+        for (int i = 0; i<numOfPeople; i++) {
+            for (int j = 0; j<8; j++) {
+                orderConfirm += "Seat " +(i+1) + " " + order.getFood(i, j) + "\n";
+            }
+        }
+        txtOrderConfirm.setText(orderConfirm);
     }
+
+
 
 
     @Override
@@ -92,6 +111,12 @@ public class newMenuActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Applies user entered text from popup dialog box
+    @Override
+    public void applyText(int seatNum) {
+        seatNumber = seatNum;
     }
 
     //Deleted placeholderFragment class from here

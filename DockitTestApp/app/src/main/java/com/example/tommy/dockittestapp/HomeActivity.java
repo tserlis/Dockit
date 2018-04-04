@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                startActivity(new Intent(HomeActivity.this, newMenuActivity.class));
+                startActivity(new Intent(HomeActivity.this, TableActivity.class));
             }
         });
     }

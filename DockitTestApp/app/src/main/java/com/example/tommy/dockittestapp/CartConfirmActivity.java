@@ -1,7 +1,6 @@
 package com.example.tommy.dockittestapp;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,7 +26,7 @@ public class CartConfirmActivity extends AppCompatActivity {
 
         //Linking objects to onscreen elements
         btnHome = findViewById(R.id.imBtnDockit);
-        txtP1 = findViewById(R.id.txtP1);
+        txtP1 = findViewById(R.id.txtConfirmation);
         txtP2 = findViewById(R.id.txtP2);
         txtP3 = findViewById(R.id.txtP3);
         txtP4 = findViewById(R.id.txtP4);
@@ -37,7 +36,7 @@ public class CartConfirmActivity extends AppCompatActivity {
         int numOfPeople = order.currentPerson();
 
         //Filling out order confirmation text fields
-        String orderConfirm = "Person 1: " + order.getFood(0);
+      /*  String orderConfirm = "Person 1: " + order.getFood(0);
         txtP1.setText(orderConfirm);
 
         if (numOfPeople>=2) {
@@ -58,6 +57,7 @@ public class CartConfirmActivity extends AppCompatActivity {
         //Displaying table number
         String table = "Table " + order.getTabNum();
         txtTabNum.setText(table);
+        */
 
 
         //Setting Home button click event

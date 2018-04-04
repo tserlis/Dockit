@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +36,7 @@ public class MenuActivity extends FragmentActivity implements ActionBar.TabListe
        // txtNotToast = findViewById(R.id.txtNotToast);
         txtPNum = findViewById(R.id.txtPNum);
         btnHome = findViewById(R.id.imBtnDockit);
-        btnAddToast = findViewById(R.id.btnAddToast);
+        btnAddToast = findViewById(R.id.btnMItem1);
         btnAddNotToast = findViewById(R.id.btnAddNotToast);
         btnNext = findViewById(R.id.btnNext);
 
@@ -62,7 +61,7 @@ public class MenuActivity extends FragmentActivity implements ActionBar.TabListe
         btnAddToast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                order.AddFood(txtToast.getText().toString(), order.currentPerson());
+              //  order.AddFood(txtToast.getText().toString(), order.currentPerson());
                 Toast.makeText(getApplicationContext(), "Toast added to cart", Toast.LENGTH_LONG).show();
                 Intent next;
                 if (currentPerson < totalNumOfPersons) {
@@ -81,7 +80,7 @@ public class MenuActivity extends FragmentActivity implements ActionBar.TabListe
         btnAddNotToast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                order.AddFood(txtNotToast.getText().toString(), order.currentPerson());
+                //order.AddFood(txtNotToast.getText().toString(), order.currentPerson());
                 Toast.makeText(getApplicationContext(), "Not toast added to cart", Toast.LENGTH_LONG).show();
                 Intent next;
                 if (currentPerson < totalNumOfPersons) {
